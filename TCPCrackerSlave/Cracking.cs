@@ -32,7 +32,7 @@ namespace PasswordCrackerCentralized
 
             List<UserInfo> userInfos =
                 PasswordFileHandler.ReadPasswordFile("passwords.txt");
-            Console.WriteLine("passwd opeend");
+           // Console.WriteLine("passwd opeend");
 
             List<UserInfoClearText> result = new List<UserInfoClearText>();
 

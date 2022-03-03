@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using System.Text.Json;
+using System.Threading;
 using System.Threading.Tasks;
 using PasswordCrackerCentralized;
 
@@ -31,29 +32,34 @@ namespace TCPCrackerSlave
 
            sw.AutoFlush = true;
            Console.ReadLine();
-            sw.WriteLine("chunk");
+           sw.WriteLine("chunk");
            
 
             var word = sr.ReadLine();
             
             wordlist = JsonSerializer.Deserialize<List<string>>(word);
-            foreach (var x in wordlist)
+
+            while (!wordlist.Contains("last chunk"))
             {
-                Console.WriteLine(x);
+                foreach (var x in wordlist)
+                {
+                    Console.WriteLine(x);
+                }
+                DoCrack(wordlist);
+                sw.WriteLine("chunk");
+                word = sr.ReadLine();
+                wordlist = JsonSerializer.Deserialize<List<string>>(word);
+                Console.ReadKey();
             }
-            
+            sw.WriteLine("bye");
 
 
-
-            DoCrack(wordlist);
-    
-             
-
-            Console.ReadKey();
             ns.Close();
             clientSocket.Close();
             Console.ReadKey();
+
         }
+       
 
         private void DoCrack(List<string> list)
         {
